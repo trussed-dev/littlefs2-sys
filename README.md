@@ -1,7 +1,7 @@
 <h1 align="center">littlefs2-sys</h1>
 <div align="center">
  <strong>
-   Low-level bindings to LittleFS
+   Low-level bindings to littlefs
  </strong>
 </div>
 
@@ -27,14 +27,21 @@
 
 ## What is this?
 
-Low-level bindings to the [littlefs](littlefs) microcontroller filesystem.
+Low-level bindings to the [littlefs][littlefs] microcontroller filesystem.
+
+You probably want the high-level, idiomatic Rust bindings: [littlefs2][littlefs2]
+
+Upstream release: [v2.1.4][upstream-release]
 
 [littlefs]: https://github.com/ARMmbed/littlefs
-
-Currently, release v2.1.4 is exposed.
+[littlefs2]: https://github.com/nickray/littlefs2
+[upstream-release]: https://github.com/ARMmbed/littlefs/releases/tag/v2.1.4
 
 #### License
 
-<sup>LittleFS licensed under [BSD-3-Clause](LICENSE-BSD3), as are these bindings.</sup>
+<sup>littlefs is licensed under [BSD-3-Clause][bsd-3-clause], as are these bindings.</sup>
 <br>
-<sub>The file `strings.c` is licensed under GPL-2.0</sub>
+<sub>The file `string.c` is licensed under GPL-2.0.<br>
+Permissively licensed replacement implementation welcome!</sub>
+
+[bsd-3-clause]: https://github.com/ARMmbed/littlefs/blob/master/LICENSE.md
