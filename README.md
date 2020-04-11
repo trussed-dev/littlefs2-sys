@@ -31,11 +31,11 @@ Low-level bindings to the [littlefs][littlefs] microcontroller filesystem.
 
 You probably want the high-level, idiomatic Rust bindings: [littlefs2][littlefs2]
 
-Upstream release: [v2.2.0][upstream-release]
+Upstream release: [v2.2.1][upstream-release]
 
 [littlefs]: https://github.com/ARMmbed/littlefs
 [littlefs2]: https://github.com/nickray/littlefs2
-[upstream-release]: https://github.com/ARMmbed/littlefs/releases/tag/v2.2.0
+[upstream-release]: https://github.com/ARMmbed/littlefs/releases/tag/v2.2.1
 
 #### License
 
