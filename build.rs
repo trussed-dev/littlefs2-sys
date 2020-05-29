@@ -3,6 +3,7 @@ use std::path::PathBuf;
 
 fn main() {
     let mut builder = cc::Build::new();
+    let target = env::var("TARGET").unwrap_or("".to_string());
     let builder = builder
         .flag("-std=c11")
         .flag("-DLFS_NO_MALLOC")
@@ -24,6 +25,7 @@ fn main() {
 
     let bindings = bindgen::Builder::default()
         .header("littlefs/lfs.h")
+        .clang_arg(format!("--target={}", target))
         .use_core()
         .ctypes_prefix("cty")
         .rustfmt_bindings(true)
