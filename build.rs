@@ -1,9 +1,9 @@
 use std::env;
 use std::path::PathBuf;
 
-fn main() {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut builder = cc::Build::new();
-    let target = env::var("TARGET").unwrap_or("".to_string());
+    let target = env::var("TARGET")?;
     let builder = builder
         .flag("-std=c11")
         .flag("-DLFS_NO_MALLOC")
