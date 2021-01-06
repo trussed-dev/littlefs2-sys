@@ -1,7 +1,7 @@
 [package]
 name = "littlefs2-sys"
 description = "Low-level bindings to littlefs"
-version = "0.1.5"
+version = "0.1.6"
 authors = ["Nicolas Stalder <n@stalder.io>"]
 edition = "2018"
 license = "BSD-3-Clause"
@@ -13,8 +13,8 @@ repository = "https://github.com/nickray/littlefs2-sys"
 cty = "0.2.1"
 
 [build-dependencies]
-bindgen = { version = "0.53.1", default-features = false }
-cc = "1.0.25"
+bindgen = { version = "0.56.0", default-features = false }
+cc = "1"
 
 [features]
 assertions = []
