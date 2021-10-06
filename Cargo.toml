@@ -13,7 +13,7 @@ repository = "https://github.com/nickray/littlefs2-sys"
 cty = "0.2.1"
 
 [build-dependencies]
-bindgen = { version = "0.56.0", default-features = false }
+bindgen = { version = "0.59.1", default-features = false }
 cc = "1"
 
 [features]
