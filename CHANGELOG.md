@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update littlefs to [v2.9.3](https://github.com/littlefs-project/littlefs/releases/tag/v2.9.3)
+  - Add `multiversion` feature
+
 ### Fixed
 
 - Fix build script for platforms where the Rust target is not equal to the clang target ([#16](https://github.com/trussed-dev/littlefs2-sys/pull/16))
