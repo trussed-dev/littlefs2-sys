@@ -10,7 +10,7 @@ categories = ["embedded", "filesystem", "no-std"]
 repository = "https://github.com/nickray/littlefs2-sys"
 
 [build-dependencies]
-bindgen = { version = "0.69.4", default-features = false , features = ["runtime"] }
+bindgen = { version = "0.70.1", default-features = false , features = ["runtime"] }
 cc = "1"
 
 [features]
@@ -18,3 +18,4 @@ assertions = []
 trace = []
 malloc = []
 software-intrinsics = []
+multiversion = []
