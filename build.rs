@@ -27,6 +27,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let bindings = bindgen::Builder::default()
         .header("littlefs/lfs.h")
         .clang_arg(format!("--target={}", target))
+        .clang_arg("-I/usr/arm-none-eabi/include")
         .use_core()
         .ctypes_prefix("cty")
         .generate()
