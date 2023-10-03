@@ -6,7 +6,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let target = env::var("TARGET")?;
     let builder = builder
         .flag("-std=c11")
-        .flag("-DLFS_NO_MALLOC")
         .flag("-DLFS_NO_DEBUG")
         .flag("-DLFS_NO_WARN")
         .flag("-DLFS_NO_ERROR")
@@ -20,6 +19,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     #[cfg(feature = "trace")]
     let builder = builder.flag("-DLFS_YES_TRACE");
+
+    #[cfg(not(feature = "malloc"))]
+    builder.flag("-DLFS_NO_MALLOC");
 
     builder.compile("lfs-sys");
 
