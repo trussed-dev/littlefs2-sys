@@ -19,3 +19,4 @@ cc = "1"
 [features]
 assertions = []
 trace = []
+malloc = []

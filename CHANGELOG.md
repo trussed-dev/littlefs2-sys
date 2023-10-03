@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Add `malloc` feature flag. It allows `littlefs` to link to `malloc` and `free` instead of relying on the caller to allocate memory ([#9])
+
 ## [0.1.7] - 2022-01-26
 
 ### Fixed
@@ -13,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed compilation issue caused by other crates also using `bindgen` by selecting the `runtime` feature ([#5])
 
 [#5]: https://github.com/trussed-dev/littlefs2-sys/pull/5
+[#9]: https://github.com/trussed-dev/littlefs2-sys/pull/9
 
 [Unreleased]: https://github.com/trussed-dev/littlefs2-sys/compare/0.1.7...HEAD
 [0.1.7]: https://github.com/trussed-dev/littlefs2-sys/compare/0.1.6...0.1.7
