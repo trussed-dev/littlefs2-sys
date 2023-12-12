@@ -20,3 +20,4 @@ cc = "1"
 assertions = []
 trace = []
 malloc = []
+software-intrinsics = []
