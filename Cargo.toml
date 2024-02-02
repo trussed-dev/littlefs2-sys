@@ -1,19 +1,19 @@
 [package]
 name = "littlefs2-sys"
 description = "Low-level bindings to littlefs"
-version = "0.1.7"
+version = "0.2.0"
 authors = ["Nicolas Stalder <n@stalder.io>"]
-edition = "2018"
+edition = "2021"
 license = "BSD-3-Clause"
 readme = "README.md"
 categories = ["embedded", "filesystem", "no-std"]
 repository = "https://github.com/nickray/littlefs2-sys"
 
 [dependencies]
-cty = "0.2.1"
+cty = "0.2.2"
 
 [build-dependencies]
-bindgen = { version = "0.56.0", default-features = false , features = ["runtime"] }
+bindgen = { version = "0.69.1", default-features = false , features = ["runtime"] }
 cc = "1"
 
 [features]
