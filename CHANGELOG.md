@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Add `malloc` feature flag. It allows `littlefs` to link to `malloc` and `free` instead of relying on the caller to allocate memory ([#9])
+- upgrade `bindgen` to 0.69.4 and limit symbols to those prefixed with `lfs_` and `LFS_` ([#10])
 
 ## [0.1.7] - 2022-01-26
 
