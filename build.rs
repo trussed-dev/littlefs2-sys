@@ -31,7 +31,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .header("littlefs/lfs.h")
         .clang_arg(format!("--target={}", target))
         .use_core()
-        .ctypes_prefix("cty")
         .allowlist_item("lfs_.*")
         .allowlist_item("LFS_.*")
         .generate()

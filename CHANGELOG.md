@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 # Changed
 
 - upgrade `bindgen` to 0.69.4 and limit symbols to those prefixed with `lfs_` and `LFS_` ([#10])
+- Use `core::ffi::*` instead of `cty::*`
 
 [#10]: https://github.com/trussed-dev/littlefs2-sys/pull/10
 [#12]: https://github.com/trussed-dev/littlefs2-sys/pull/12

@@ -9,9 +9,6 @@ readme = "README.md"
 categories = ["embedded", "filesystem", "no-std"]
 repository = "https://github.com/nickray/littlefs2-sys"
 
-[dependencies]
-cty = "0.2.1"
-
 [build-dependencies]
 bindgen = { version = "0.69.4", default-features = false , features = ["runtime"] }
 cc = "1"
