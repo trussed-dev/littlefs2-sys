@@ -9,6 +9,7 @@ readme = "README.md"
 categories = ["embedded", "filesystem", "no-std"]
 repository = "https://github.com/nickray/littlefs2-sys"
 
+
 [build-dependencies]
 bindgen = { version = "0.69.4", default-features = false , features = ["runtime"] }
 cc = "1"
@@ -18,3 +19,15 @@ assertions = []
 trace = []
 malloc = []
 software-intrinsics = []
+
+# Enable this feature when you are linking with other libraries that also 
+# define these functions and you are getting multiple definition errors.
+# If you enable this then you need to insure that the following c functions
+# are available:
+# - strspn
+# - strcspn
+# - strlen
+# - strchr
+# one way is to use the `tinyrlibc` crate and enable those features that
+# are still missing.
+have-string-funcs = []

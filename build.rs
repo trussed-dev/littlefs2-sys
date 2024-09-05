@@ -10,8 +10,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .flag("-DLFS_NO_WARN")
         .flag("-DLFS_NO_ERROR")
         .file("littlefs/lfs.c")
-        .file("littlefs/lfs_util.c")
-        .file("string.c");
+        .file("littlefs/lfs_util.c");
+
+    #[cfg(not(feature = "have-string-funcs"))]
+    let builder = builder.file("string.c");
 
     #[cfg(feature = "software-intrinsics")]
     let builder = builder.flag("-DLFS_NO_INTRINSICS");
