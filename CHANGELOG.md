@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add feature to disable compiling string.c when it conflicts with other libs. ([#15]())
+
 ## [0.2.0] - 2024-05-28
 
 ### Added
