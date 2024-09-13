@@ -3,7 +3,6 @@ use std::path::PathBuf;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut builder = cc::Build::new();
-    let target = env::var("TARGET")?;
     let builder = builder
         .flag("-std=c11")
         .flag("-DLFS_NO_DEBUG")
@@ -29,7 +28,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let bindings = bindgen::Builder::default()
         .header("littlefs/lfs.h")
-        .clang_arg(format!("--target={}", target))
         .use_core()
         .allowlist_item("lfs_.*")
         .allowlist_item("LFS_.*")

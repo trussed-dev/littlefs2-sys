@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix build script for platforms where the Rust target is not equal to the clang target ([#16](https://github.com/trussed-dev/littlefs2-sys/pull/16))
+
 ## [0.2.0] - 2024-05-28
 
 ### Added
