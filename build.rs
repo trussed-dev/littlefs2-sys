@@ -48,12 +48,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     )
     .expect("Failed to write lfs.h");
 
-    let bindings = bindgen::Builder::default()
+    let bindgen = bindgen::Builder::default()
         .header(out_lfs_h.into_os_string().into_string().unwrap())
         .clang_arg("-std=c99")
         .clang_arg("-DLFS_NO_DEBUG")
         .clang_arg("-DLFS_NO_WARN")
-        .clang_arg("-DLFS_NO_ERROR")
+        .clang_arg("-DLFS_NO_ERROR");
+
+    #[cfg(feature = "multiversion")]
+    let bindgen = bindgen.clang_arg("-DLFS_MULTIVERSION");
+
+    let bindings = bindgen
         .use_core()
         .allowlist_item("lfs_.*")
         .allowlist_item("LFS_.*")

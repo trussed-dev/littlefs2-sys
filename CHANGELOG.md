@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -
 
+## [0.3.1] - 2025-02-27
+
+### Fixed
+
+- Fix code generation with `multiversion` feature
+
 ## [0.3.0] - 2025-02-26
 
 ### Changed
@@ -45,7 +51,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#5]: https://github.com/trussed-dev/littlefs2-sys/pull/5
 [#9]: https://github.com/trussed-dev/littlefs2-sys/pull/9
 
-[Unreleased]: https://github.com/trussed-dev/littlefs2-sys/compare/0.3.0...HEAD
+[Unreleased]: https://github.com/trussed-dev/littlefs2-sys/compare/0.3.1...HEAD
 [0.1.7]: https://github.com/trussed-dev/littlefs2-sys/compare/0.1.6...0.1.7
 [0.2.0]: https://github.com/trussed-dev/littlefs2-sys/compare/0.1.7...0.2.0
 [0.3.0]: https://github.com/trussed-dev/littlefs2-sys/compare/0.2.0...0.3.0
+[0.3.1]: https://github.com/trussed-dev/littlefs2-sys/compare/0.3.0...0.3.1
