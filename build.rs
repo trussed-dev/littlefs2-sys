@@ -59,6 +59,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let bindgen = bindgen.clang_arg("-DLFS_MULTIVERSION");
 
     let bindings = bindgen
+        .derive_default(true)
         .use_core()
         .allowlist_item("lfs_.*")
         .allowlist_item("LFS_.*")
