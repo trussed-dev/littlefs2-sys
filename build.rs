@@ -1,6 +1,5 @@
 use std::env;
 use std::path::PathBuf;
-use std::process::Command;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
@@ -23,30 +22,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     )
     .expect("Failed to write lfs.h");
 
-    // maybe patch lfs.c to remove the mount check for the block count
-    println!("cargo::rerun-if-changed=littlefs/lfs.c");
-    let out_lfs_c = out_path.join("lfs.c");
-    if cfg!(feature = "unstable-disable-block-count-check") {
-        println!("cargo::rerun-if-changed=remove-mount-check.patch");
-        assert!(
-            Command::new("patch")
-                .args([
-                    "littlefs/lfs.c",
-                    "-o",
-                    out_lfs_c.to_str().unwrap(),
-                    "remove-mount-check.patch"
-                ])
-                .spawn()
-                .unwrap()
-                .wait()
-                .unwrap()
-                .success(),
-            "Failed to apply patch"
-        )
-    } else {
-        std::fs::copy("littlefs/lfs.c", out_path.join("lfs.c")).unwrap();
-    }
-
     let mut builder = cc::Build::new();
     let builder = builder
         .flag("-std=c99")
@@ -55,7 +30,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .flag("-DLFS_NO_ERROR")
         .include(&out_path)
         .include("littlefs")
-        .file(out_lfs_c)
+        .file("littlefs/lfs.c")
         .file("littlefs/lfs_util.c")
         .file("string.c");
 
