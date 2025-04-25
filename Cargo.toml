@@ -19,5 +19,3 @@ trace = []
 malloc = []
 software-intrinsics = []
 multiversion = []
-
-unstable-disable-block-count-check = []
