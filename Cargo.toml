@@ -19,3 +19,8 @@ trace = []
 malloc = []
 software-intrinsics = []
 multiversion = []
+
+# unstable features -- enabling one of the following features may break semantic versioning guarantees
+
+# use a patched version of littlefs: https://github.com/trussed-dev/littlefs/releases/tag/v2.9-trussed.1
+unstable-littlefs-patched = []

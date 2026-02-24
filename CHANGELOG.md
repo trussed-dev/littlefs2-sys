@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Derive `Default` if possible
+- Add `unstable-littlefs-patched` feature.  Enabling this feature may break semantic versioning guarantees. If this feature is enabled, a patched version of littlefs ([v2.9-trussed.1](https://github.com/trussed-dev/littlefs/releases/tag/v2.9-trussed.1)) is used with the following changes from v2.9.3:
+  - [Add config flag to disable block count check on mount](https://github.com/trussed-dev/littlefs/commit/5328ae4b2ad95088a8079c0dfbc623df45598a88)
+  - [Add support for shrinking a filesystem](https://github.com/trussed-dev/littlefs/commit/9a6ef46eb43e7edfdfdba04e50c602a8173b456c)
 
 ## [0.3.1] - 2025-02-27
 

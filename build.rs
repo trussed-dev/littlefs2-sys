@@ -2,6 +2,11 @@ use std::env;
 use std::path::PathBuf;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let littlefs_path = if cfg!(feature = "unstable-littlefs-patched") {
+        "littlefs-patched"
+    } else {
+        "littlefs"
+    };
     let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
 
     // Patch lfs.h to remove the lfs_util import because clang fails to locate the
@@ -10,8 +15,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // which comes as a distribution with these utils.
     // Turns out lfs_utils is not used in lfs.h, and clang properly finds stdint.h and stdbool,
     // but not string.h
-    let lfs_h = std::fs::read_to_string("littlefs/lfs.h").expect("Reading lfs.h succeeds");
-    println!("cargo::rerun-if-changed=littlefs/lfs.h");
+    let lfs_h =
+        std::fs::read_to_string(format!("{littlefs_path}/lfs.h")).expect("Reading lfs.h succeeds");
+    println!("cargo::rerun-if-changed={littlefs_path}/lfs.h");
     let out_lfs_h = out_path.join("lfs.h");
     std::fs::write(
         &out_lfs_h,
@@ -29,9 +35,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .flag("-DLFS_NO_WARN")
         .flag("-DLFS_NO_ERROR")
         .include(&out_path)
-        .include("littlefs")
-        .file("littlefs/lfs.c")
-        .file("littlefs/lfs_util.c")
+        .include(littlefs_path)
+        .file(format!("{littlefs_path}/lfs.c"))
+        .file(format!("{littlefs_path}/lfs_util.c"))
         .file("string.c");
 
     #[cfg(feature = "software-intrinsics")]

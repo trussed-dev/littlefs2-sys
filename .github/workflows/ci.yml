@@ -41,7 +41,9 @@ jobs:
           cargo check --all-features
 
       - name: Build
-        run: cargo build --release --verbose
+        run: |
+          cargo build --release
+          cargo build --release --features unstable-littlefs-patched
 
       - name: Run clippy
         if: matrix.target == 'x86_64-unknown-linux-gnu'
