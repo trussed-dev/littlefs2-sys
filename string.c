@@ -5,7 +5,7 @@
  *  Copyright (C) 1991, 1992  Linus Torvalds
  */
 
-#include <string.h>
+#include <stddef.h>
 
 size_t strspn(const char *s, const char *accept)
 {

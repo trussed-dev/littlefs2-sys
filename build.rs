@@ -52,6 +52,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     #[cfg(not(feature = "malloc"))]
     builder.flag("-DLFS_NO_MALLOC");
 
+    if let Ok(lfs_config) = env::var("LITTLEFS_CONFIG") {
+        builder.define("LFS_CONFIG", Some(lfs_config.as_str()));
+        println!("cargo::rerun-if-env-changed=LITTLEFS_CONFIG");
+        println!("cargo::rerun-if-changed={}", lfs_config);
+    }
+
     #[cfg(feature = "multiversion")]
     let builder = builder.flag("-DLFS_MULTIVERSION");
 
@@ -67,11 +73,19 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     #[cfg(feature = "multiversion")]
     let bindgen = bindgen.clang_arg("-DLFS_MULTIVERSION");
 
-    let bindings = bindgen
+    let mut bindings_builder = bindgen
         .derive_default(true)
         .use_core()
         .allowlist_item("lfs_.*")
-        .allowlist_item("LFS_.*")
+        .allowlist_item("LFS_.*");
+
+    if let Ok(target) = env::var("TARGET") {
+        if target == "wasm32-unknown-unknown" {
+            bindings_builder = bindings_builder.clang_arg("-fvisibility=default");
+        }
+    }
+
+    let bindings = bindings_builder
         .generate()
         .expect("Unable to generate bindings");
 
