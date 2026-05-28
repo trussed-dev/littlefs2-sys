@@ -1,5 +1,12 @@
 use std::env;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
+
+const BINDGEN_BASE_CLANG_ARGS: &[&str] = &[
+    "-std=c99",
+    "-DLFS_NO_DEBUG",
+    "-DLFS_NO_WARN",
+    "-DLFS_NO_ERROR",
+];
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let littlefs_path = if cfg!(feature = "unstable-littlefs-patched") {
@@ -29,55 +36,123 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     .expect("Failed to write lfs.h");
 
     let mut builder = cc::Build::new();
-    let builder = builder
-        .flag("-std=c99")
-        .flag("-DLFS_NO_DEBUG")
-        .flag("-DLFS_NO_WARN")
-        .flag("-DLFS_NO_ERROR")
+    builder
         .include(&out_path)
         .include(littlefs_path)
         .file(format!("{littlefs_path}/lfs.c"))
         .file(format!("{littlefs_path}/lfs_util.c"))
         .file("string.c");
 
-    #[cfg(feature = "software-intrinsics")]
-    let builder = builder.flag("-DLFS_NO_INTRINSICS");
-
-    #[cfg(not(feature = "assertions"))]
-    let builder = builder.flag("-DLFS_NO_ASSERT");
-
-    #[cfg(feature = "trace")]
-    let builder = builder.flag("-DLFS_YES_TRACE");
-
-    #[cfg(not(feature = "malloc"))]
-    builder.flag("-DLFS_NO_MALLOC");
-
-    #[cfg(feature = "multiversion")]
-    let builder = builder.flag("-DLFS_MULTIVERSION");
+    for flag in cc_flags() {
+        builder.flag(flag);
+    }
 
     builder.compile("lfs-sys");
 
-    let bindgen = bindgen::Builder::default()
-        .header(out_lfs_h.into_os_string().into_string().unwrap())
-        .clang_arg("-std=c99")
-        .clang_arg("-DLFS_NO_DEBUG")
-        .clang_arg("-DLFS_NO_WARN")
-        .clang_arg("-DLFS_NO_ERROR");
+    generate_bindings(
+        &out_lfs_h,
+        &out_path.join("bindings.rs"),
+        &bindgen_clang_args(),
+    )?;
 
-    #[cfg(feature = "multiversion")]
-    let bindgen = bindgen.clang_arg("-DLFS_MULTIVERSION");
+    Ok(())
+}
 
-    let bindings = bindgen
+fn cc_flags() -> Vec<&'static str> {
+    let mut flags = Vec::from(BINDGEN_BASE_CLANG_ARGS);
+
+    if cfg!(feature = "software-intrinsics") {
+        flags.push("-DLFS_NO_INTRINSICS");
+    }
+
+    if !cfg!(feature = "assertions") {
+        flags.push("-DLFS_NO_ASSERT");
+    }
+
+    if cfg!(feature = "trace") {
+        flags.push("-DLFS_YES_TRACE");
+    }
+
+    if !cfg!(feature = "malloc") {
+        flags.push("-DLFS_NO_MALLOC");
+    }
+
+    if cfg!(feature = "multiversion") {
+        flags.push("-DLFS_MULTIVERSION");
+    }
+
+    flags
+}
+
+fn bindgen_clang_args() -> Vec<&'static str> {
+    let mut args = Vec::from(BINDGEN_BASE_CLANG_ARGS);
+
+    if cfg!(feature = "multiversion") {
+        args.push("-DLFS_MULTIVERSION");
+    }
+
+    args
+}
+
+#[cfg(feature = "bindgen")]
+fn generate_bindings(
+    header: &Path,
+    output: &Path,
+    clang_args: &[&str],
+) -> Result<(), Box<dyn std::error::Error>> {
+    let mut bindgen = bindgen::Builder::default()
+        .header(header.to_string_lossy().into_owned())
         .derive_default(true)
         .use_core()
         .allowlist_item("lfs_.*")
-        .allowlist_item("LFS_.*")
-        .generate()
-        .expect("Unable to generate bindings");
+        .allowlist_item("LFS_.*");
 
-    bindings
-        .write_to_file(out_path.join("bindings.rs"))
+    for arg in clang_args {
+        bindgen = bindgen.clang_arg(*arg);
+    }
+
+    bindgen
+        .generate()
+        .expect("Unable to generate bindings")
+        .write_to_file(output)
         .expect("Couldn't write bindings!");
+
+    Ok(())
+}
+
+#[cfg(not(feature = "bindgen"))]
+fn generate_bindings(
+    header: &Path,
+    output: &Path,
+    clang_args: &[&str],
+) -> Result<(), Box<dyn std::error::Error>> {
+    let status = std::process::Command::new("bindgen")
+        .arg("--with-derive-default")
+        .arg("--use-core")
+        .arg("--allowlist-item")
+        .arg("lfs_.*")
+        .arg("--allowlist-item")
+        .arg("LFS_.*")
+        .arg("-o")
+        .arg(output)
+        .arg(header)
+        .arg("--")
+        .args(clang_args)
+        .status()
+        .map_err(|error| {
+            std::io::Error::new(
+                error.kind(),
+                format!("failed to run bindgen executable from PATH: {error}"),
+            )
+        })?;
+
+    if !status.success() {
+        return Err(std::io::Error::new(
+            std::io::ErrorKind::Other,
+            format!("bindgen executable failed with status {status}"),
+        )
+        .into());
+    }
 
     Ok(())
 }
