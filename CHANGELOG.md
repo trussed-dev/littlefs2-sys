@@ -6,7 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
--
+### Changed
+
+- Remove the implementations of `strchr`, `strlen`, `strcspn` and `strspn` by default and add the `tinyrlibc` feature to pull them in from `tinyrlibc`.
+  When updating from an earlier version, enable the `tinyrlibc` feature.
 
 ## [0.3.2] - 2026-02-25
 

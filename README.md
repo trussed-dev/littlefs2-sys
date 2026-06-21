@@ -39,9 +39,6 @@ Upstream release: [v2.9.3][upstream-release]
 
 #### License
 
-<sup>littlefs is licensed under [BSD-3-Clause][bsd-3-clause], as are these bindings.</sup>
-<br>
-<sub>The file `string.c` is licensed under GPL-2.0.<br>
-Permissively licensed replacement implementation welcome!</sub>
+littlefs is licensed under [BSD-3-Clause][bsd-3-clause], as are these bindings.
 
 [bsd-3-clause]: https://github.com/ARMmbed/littlefs/blob/master/LICENSE.md

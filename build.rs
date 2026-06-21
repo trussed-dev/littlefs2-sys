@@ -37,8 +37,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .include(&out_path)
         .include(littlefs_path)
         .file(format!("{littlefs_path}/lfs.c"))
-        .file(format!("{littlefs_path}/lfs_util.c"))
-        .file("string.c");
+        .file(format!("{littlefs_path}/lfs_util.c"));
 
     #[cfg(feature = "software-intrinsics")]
     let builder = builder.flag("-DLFS_NO_INTRINSICS");
