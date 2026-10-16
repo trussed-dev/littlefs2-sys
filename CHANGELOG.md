@@ -6,7 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
--
+### Changed
+
+- Update littlefs to v2.11.3. The on-disk format is unchanged, but littlefs v2.10 reworked path parsing: the empty path no longer aliases the root directory and returns `LFS_ERR_INVAL`, trailing slashes are rejected for files, and navigating above the root returns `LFS_ERR_INVAL`. See the [v2.10.0 release notes](https://github.com/littlefs-project/littlefs/releases/tag/v2.10.0) for details.
 
 ## [0.4.0] - 2026-06-21
 
