@@ -58,6 +58,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let bindgen = bindgen::Builder::default()
         .header(out_lfs_h.into_os_string().into_string().unwrap())
+        .clang_arg("-ffreestanding")
         .clang_arg("-std=c99")
         .clang_arg("-DLFS_NO_DEBUG")
         .clang_arg("-DLFS_NO_WARN")
