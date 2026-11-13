@@ -6,7 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
--
+## [0.4.1] - 2026-11-14
+
+### Changed
+
+- Use `-ffreestanding` in `bindgen`'s clang arguments. This fixes build on systems with 2 LLVM version installed which broke header file resolution.
+The compilation step still does not use it, so no changes are expected on the compilation side
 
 ## [0.4.0] - 2026-06-21
 
@@ -67,9 +72,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#5]: https://github.com/trussed-dev/littlefs2-sys/pull/5
 [#9]: https://github.com/trussed-dev/littlefs2-sys/pull/9
 
-[Unreleased]: https://github.com/trussed-dev/littlefs2-sys/compare/0.3.2...HEAD
+[Unreleased]: https://github.com/trussed-dev/littlefs2-sys/compare/0.4.0...HEAD
 [0.1.7]: https://github.com/trussed-dev/littlefs2-sys/compare/0.1.6...0.1.7
 [0.2.0]: https://github.com/trussed-dev/littlefs2-sys/compare/0.1.7...0.2.0
 [0.3.0]: https://github.com/trussed-dev/littlefs2-sys/compare/0.2.0...0.3.0
 [0.3.1]: https://github.com/trussed-dev/littlefs2-sys/compare/0.3.0...0.3.1
 [0.3.2]: https://github.com/trussed-dev/littlefs2-sys/compare/0.3.1...0.3.2
+[0.4.0]: https://github.com/trussed-dev/littlefs2-sys/compare/0.3.2...0.4.0
+[0.4.1]: https://github.com/trussed-dev/littlefs2-sys/compare/0.4.0...0.4.1
