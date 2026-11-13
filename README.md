@@ -37,6 +37,30 @@ Upstream release: [v2.9.3][upstream-release]
 [littlefs2]: https://github.com/nickray/littlefs2
 [upstream-release]: https://github.com/ARMmbed/littlefs/releases/tag/v2.9.3
 
+## Custom littlefs configuration
+
+littlefs reads its system configuration (logging, assertions, memory allocation,
+CRC, ...) from `lfs_util.h`. The `UNSAFE_LITTLEFS_CONFIG` environment variable
+can be set to the path of a header that replaces it, which is passed to the C
+compiler as `LFS_CONFIG`:
+
+```sh
+UNSAFE_LITTLEFS_CONFIG=/path/to/lfs_config.h cargo build
+```
+
+It can also be set in `.cargo/config.toml`:
+
+```toml
+[env]
+UNSAFE_LITTLEFS_CONFIG = { value = "include/lfs_config.h", relative = true }
+```
+
+This is unsafe: the header must provide everything `lfs_util.h` provides, and
+it can change the behavior of littlefs in ways the Rust bindings cannot check.
+See littlefs's [`lfs_util.h`][lfs-config] for what the header needs to define.
+
+[lfs-config]: https://github.com/littlefs-project/littlefs/blob/master/lfs_util.h
+
 #### License
 
 littlefs is licensed under [BSD-3-Clause][bsd-3-clause], as are these bindings.

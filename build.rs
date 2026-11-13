@@ -51,6 +51,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     #[cfg(not(feature = "malloc"))]
     builder.flag("-DLFS_NO_MALLOC");
 
+    // Replaces lfs_util.h with a user-provided header (see the README).
+    // This is unsafe: the header controls littlefs internals (assertions,
+    // allocation, CRC, ...) that the Rust bindings cannot check.
+    println!("cargo::rerun-if-env-changed=UNSAFE_LITTLEFS_CONFIG");
+    if let Ok(lfs_config) = env::var("UNSAFE_LITTLEFS_CONFIG") {
+        builder.define("LFS_CONFIG", Some(lfs_config.as_str()));
+        println!("cargo::rerun-if-changed={}", lfs_config);
+    }
+
     #[cfg(feature = "multiversion")]
     let builder = builder.flag("-DLFS_MULTIVERSION");
 
@@ -67,11 +76,23 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     #[cfg(feature = "multiversion")]
     let bindgen = bindgen.clang_arg("-DLFS_MULTIVERSION");
 
-    let bindings = bindgen
+    let mut bindings_builder = bindgen
         .derive_default(true)
         .use_core()
         .allowlist_item("lfs_.*")
-        .allowlist_item("LFS_.*")
+        .allowlist_item("LFS_.*");
+
+    // On wasm targets, clang implicitly uses `-fvisibility=hidden`, and bindgen
+    // skips functions that don't have default visibility. Without this flag, the
+    // bindings would contain the littlefs types but none of the `lfs_*` functions.
+    // This only affects how bindgen parses the headers, not the compiled code.
+    if env::var("CARGO_CFG_TARGET_FAMILY")
+        .is_ok_and(|family| family.split(',').any(|f| f == "wasm"))
+    {
+        bindings_builder = bindings_builder.clang_arg("-fvisibility=default");
+    }
+
+    let bindings = bindings_builder
         .generate()
         .expect("Unable to generate bindings");
 
